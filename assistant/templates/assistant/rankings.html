@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="tab icon" type="image/png" href="{% static 'assistant/ftc_logo.png' %}">
+    <title>Rankings</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'assistant/mainstyle.css' %}">
+
+    <style>
+        #rankings-table {
+            border-collapse: collapse;
+            text-align: center;
+            font-size: 20px;
+            border: 1px solid black;
+            background: rgb(247, 247, 247);
+            
+            margin-left: 5%;
+        }
+
+        #rankings-table tr {
+            border: 1px solid black;
+        }
+
+        #rankings-table td, th {
+            border: 1px solid black;
+            padding: 10px 20px;
+            background: rgb(247, 247, 247);
+        }
+
+        #table-title {
+            text-align: center;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="nav">
+		<ul>
+            <li><a href="{% url 'home-page' %}">HOME</a></li>
+            <li><a href="{% url 'event-info' %}">EVENT INFORMATION</a></li>
+            <li><a href="{% url 'team-page' %}">TEAM</a></li>
+            <li><a href="{% url 'match-center' %}">MATCH CENTER</a></li>
+            <li><a href="{% url 'rankings-page' %}"><strong>RANKINGS</strong></a></li>
+        </ul>
+	</div>
+    
+    <h1>Rankings</h1>
+    <h3>Key:</h3>
+    <ul style="line-height: 1.6">
+        <li>OPR = Offensive Power Rating (average contribution of points per match)</li>
+        <li>RP = Ranking Points (win = +2, tie = +1, loss = +0)</li>
+        <li>TBP = Tie Breaker Points (Total Points Against)</li>
+    </ul>
+    
+    <p>
+        Rank by 
+        <select>
+            <option>OPR</option>
+            <option>Autonomous OPR</option>
+            <option>Tele-Op OPR</option>
+            <option>End Game OPR</option>
+            <option>RP</option>
+            <option>TBP</option>
+        </select>
+        <button id="update">Update Rankings</button>
+    </p>
+    
+    <h3 id="table-title">Ranked by OPR</h3>
+    <table id="rankings-table">
+        <tr>
+            <th>Rank</th>
+            <th>Team #</th>
+            <th>Team</th>
+            <th>Matches</th>
+            <th>RP</th>
+            <th>TBP</th>
+            <th>Auto OPR</th>
+            <th>Tele-Op OPR</th>
+            <th>End Game OPR</th>
+            <th>OPR</th>
+        </tr>
+    </table>
+    
+    <p>To be completed...</p>
+    
+    <!--footer-->
+    <h3 id="footer">Website Design and Content Copyright © <span id="footer-date">year</span> Owen Sorber. All Rights Reserved.</h3>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        
+    </script>
+    <script src="{% static 'assistant/footer.js' %}"></script>
+</body>
+</html>

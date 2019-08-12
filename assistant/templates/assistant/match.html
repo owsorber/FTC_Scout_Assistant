@@ -1,0 +1,424 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="tab icon" type="image/png" href="{% static 'assistant/ftc_logo.png' %}">
+    <title>Match Center</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'assistant/mainstyle.css' %}">
+    <style>
+        h2 {
+            text-align: center;
+        }
+
+        #new-match {
+            margin-left: 10%;
+        }
+
+        #new-match td {
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .alliance {
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 25px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        .alliance h2 {
+            text-align: center;
+        }
+        .alliance input {
+            font-size: 25px;
+            border-radius: 5px;
+        }
+
+        #red-alliance {
+            background: #ff6666;
+        }
+
+        #blue-alliance {
+            background: #9999ff;
+        }
+
+        #submit {
+            margin-left: 30%;
+            width: 40%;
+            height: 50px;
+            font-size: 40px;
+            margin-bottom: 30px;
+        }
+
+        #error-message {
+            color: red;
+            margin-top: -10px;
+            text-align: center;
+        }
+
+        #match-table {
+            margin-left: 4%;
+            font-size: 15px;
+        }
+
+        #match-table td, th {
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        /* Tables within the big match table */
+        #match-nums {
+            float: left;
+        }
+        #red-table {
+            background: #ff6666;
+            float: left;
+        }
+        #blue-table {
+            background: #9999ff;
+            float: left;
+        }
+        .edit-button {
+            font-size: 15px;
+            margin-top: -10px;
+            margin-bottom: -10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="nav">
+		<ul>
+            <li><a href="{% url 'home-page' %}">HOME</a></li>
+            <li><a href="{% url 'event-info' %}">EVENT INFORMATION</a></li>
+            <li><a href="{% url 'team-page' %}">TEAM</a></li>
+            <li><a href="{% url 'match-center' %}"><strong>MATCH CENTER</strong></a></li>
+            <li><a href="{% url 'rankings-page' %}">RANKINGS</a></li>
+        </ul>
+	</div>
+    
+    <h1>Welcome to the Match Center</h1>
+    <p>Enter a new match or edit previous matches below. For each team, enter the correct team number. When entering scores, you must enter a numeric value for all inputs; otherwise, an error will be thrown. Order of matches DOES NOT matter for team performance calculations, so if you mistakenly switched the order of matches that is perfectly fine; with that said, it is advised you enter matches in chronological match order to avoid confusing yourself.</p>
+    
+    <p>NOTE: Sometimes in FTC competitions due to an uneven number of teams some matches will not count for certain teams. While the match should still be accounted for as a data point for performance analysis, FTC does not factor this in for ranking points. In the event that a team's performance does not count, <strong>uncheck the checkbox next to their team number</strong>; otherwise, some rankings will be inaccurate.</p>
+    
+    <h2>Input Scores for Match <span class="match-num-display">#1</span></h2>
+    <form method="POST" id="match-form" autocomplete="off">
+        {% csrf_token %}
+        <table id="new-match">
+            <tr>
+                <td>
+                    <div class="alliance" id="red-alliance">
+                        <h2>RED ALLIANCE</h2>
+                        <p>Team 1: <input id="red1"> <input type="checkbox" checked></p>
+                        <p>Team 2: <input id="red2"> <input type="checkbox" checked></p>
+                        <p>Autonomous Score: <input id="redauto"></p>
+                        <p>Tele-Op Score: <input id="redtele"></p>
+                        <p>End Game Score: <input id="redend"></p>
+                        <p>Total Score: <input id="redscore"></p>
+                    </div>
+                </td>
+                
+                <td>
+                    <div class="alliance" id="blue-alliance">
+                        <h2>BLUE ALLIANCE</h2>
+                        <p>Team 1: <input id="blue1"> <input type="checkbox" checked></p>
+                        <p>Team 2: <input id="blue2"> <input type="checkbox" checked></p>
+                        <p>Autonomous Score: <input id="blueauto"></p>
+                        <p>Tele-Op Score: <input id="bluetele"></p>
+                        <p>End Game Score: <input id="blueend"></p>
+                        <p>Total Score: <input id="bluescore"></p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <button type="submit" id="submit">Submit Match <span class="match-num-display">#1</span></button>
+        <p id="error-message"></p>
+    </form>
+    
+    <hr>
+    <h2>Recorded Matches</h2>
+    <div id="match-table">
+        <table id="match-nums">
+            <tr><th>Match #</th></tr>
+        </table>
+        <table id="red-table">
+            <tr>
+                <th>Team 1</th>
+                <th>Team 2</th>
+                <th>Auto</th>
+                <th>Tele-Op</th>
+                <th>End Game</th>
+                <th>Total</th>
+            </tr>
+        </table>
+        <table id="blue-table">
+            <tr>
+                <th>Team 1</th>
+                <th>Team 2</th>
+                <th>Auto</th>
+                <th>Tele-Op</th>
+                <th>End Game</th>
+                <th>Total</td>
+            </tr>
+        </table>
+        <table id="edit-buttons">
+            <tr>
+                <th>Edit Data</th>
+            </tr>
+        </table>
+    </div>
+    
+    <!--footer-->
+    <h3 id="footer">Website Design and Content Copyright © <span id="footer-date">year</span> Owen Sorber. All Rights Reserved.</h3>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{% static 'assistant/dataconversion.js' %}"></script>
+    <script>
+        var MATCHES; // match data array
+        var currMatch; // match currently being edited
+        
+        // Setup initial MATCHES array if data is already stored or instantiate as an empty array
+        MATCHES = convertToMatches(localStorage.getItem("matches"));
+        currMatch = MATCHES.length + 1;
+        
+        var submitButton = document.getElementById("submit");
+        
+        var matchNumsTable = document.getElementById("match-nums");
+        var redMatchTable = document.getElementById("red-table");
+        var blueMatchTable = document.getElementById("blue-table");
+        var editButtonsTable = document.getElementById("edit-buttons");
+        var $editbuttons; // jQuery collection of edit buttons to be updated with each match and referenced later
+        
+        // Creating specific parts of match table
+        var createMatchNumber = function(matchnum) {
+            var matchNumTD = document.createElement("td");
+            matchNumTD.innerHTML = matchnum;
+            var matchNumTR = document.createElement("tr");
+            matchNumTR.appendChild(matchNumTD);
+            matchNumsTable.appendChild(matchNumTR);
+        }
+        var createEditButton = function(matchnum) {
+            var editTR = document.createElement("tr");
+            var editTD = document.createElement("td");
+            var editButton = document.createElement("button");
+            editButton.innerHTML = "Edit";
+            editButton.setAttribute("class", "edit-button");
+            editTD.appendChild(editButton);
+            editTR.appendChild(editTD);
+            editButtonsTable.appendChild(editTR);
+            $editbuttons = $(".edit-button"); // update jQuery collection of edit buttons
+        }
+        
+        // Adds matches to the table given the match number and match data
+        var addMatchToTable = function(matchnum, match) {
+            // Create table row and give it class name so it can be accessed as part of a jQuery collection later
+            var redrow = document.createElement("tr");
+            redrow.setAttribute("class", "redrow");
+            var bluerow = document.createElement("tr");
+            bluerow.setAttribute("class", "bluerow");
+
+            for (var i = 0; i < match.length / 2; i++) {
+                var td = document.createElement("td");
+                td.innerHTML = match[i];
+                redrow.appendChild(td);
+            }
+
+            for (var i = match.length / 2; i < match.length; i++) {
+                var td = document.createElement("td");
+                td.innerHTML = match[i];
+                bluerow.appendChild(td);
+            }
+
+
+            // add a new row for a new match
+            createMatchNumber(matchnum);
+            redMatchTable.appendChild(redrow);
+            blueMatchTable.appendChild(bluerow);
+            createEditButton(matchnum);
+        }
+        
+        // Called whenever a new editing button is added
+        var enableEditingButtons = function() {
+            // Loop through edit buttons; for each, add an event listener based on button index to edit that match
+            $editbuttons.each(function(index, element) {
+                var $button = $(element);
+                $button.on("click", function() {
+                    currMatch = index + 1; // set the current match being edited to the index of the element
+                        
+                    // Update references of currMatch
+                    $(".match-num-display").text("#" + currMatch);
+                        
+                    // Update text inputs
+                    updateInputs(MATCHES[currMatch - 1]);
+                })
+            });
+        }
+        
+        // MATCH INFORMATION INPUTS
+        {
+            var redteam1 = document.getElementById("red1");
+            var redteam2 = document.getElementById("red2");
+            var redauto = document.getElementById("redauto");
+            var redtele = document.getElementById("redtele");
+            var redend = document.getElementById("redend");
+            var redscore = document.getElementById("redscore");
+            var blueteam1 = document.getElementById("blue1");
+            var blueteam2 = document.getElementById("blue2");
+            var blueauto = document.getElementById("blueauto");
+            var bluetele = document.getElementById("bluetele");
+            var blueend = document.getElementById("blueend");
+            var bluescore = document.getElementById("bluescore");
+        }
+        
+        // Update inputs based on match array (for match editing)
+        var updateInputs = function(match) {
+            redteam1.value = match[0];
+            redteam2.value = match[1];
+            redauto.value = match[2];
+            redtele.value = match[3];
+            redend.value = match[4];
+            redscore.value = match[5];
+            blueteam1.value = match[6];
+            blueteam2.value = match[7];
+            blueauto.value = match[8];
+            bluetele.value = match[9];
+            blueend.value = match[10];
+            bluescore.value = match[11];
+        }
+        
+        // Error messaging... matchErrors() returns true if there are any errors in the inputs of match information
+        var errorMessage = document.getElementById("error-message");
+        var matchErrors = function() {
+            // Update inputs - there could've been changes
+            redteam1 = document.getElementById("red1");
+            redteam2 = document.getElementById("red2");
+            redauto = document.getElementById("redauto");
+            redtele = document.getElementById("redtele");
+            redend = document.getElementById("redend");
+            redscore = document.getElementById("redscore");
+            blueteam1 = document.getElementById("blue1");
+            blueteam2 = document.getElementById("blue2");
+            blueauto = document.getElementById("blueauto");
+            bluetele = document.getElementById("bluetele");
+            blueend = document.getElementById("blueend");
+            bluescore = document.getElementById("bluescore");
+            
+            var inputs = [redteam1, redteam2, redauto, redtele, redend, redscore, blueteam1, blueteam2, blueauto, bluetele, blueend, bluescore];
+            for (var i = 0; i < inputs.length; i++) {
+                if (inputs[i].value === "" || isNaN(parseInt(inputs[i].value))) {
+                    errorMessage.innerHTML = "Error. Make sure to fill in all boxes and input only numeric values.";
+                    return true;
+                }
+            }
+            
+            var teams = convertToTeamsDict(localStorage.getItem("teams"));
+            if (teams[redteam1.value] == undefined || teams[redteam2.value] == undefined || teams[blueteam1.value] == undefined || teams[blueteam2.value] == undefined) {
+                errorMessage.innerHTML = "Error. At least one of the teams you're submitting is not listed as one of the teams in the competition. Go to the event information page and make sure all teams are added.";
+                return true;
+            }
+            
+            return false;
+        }
+        
+        // What happens when the "SUBMIT MATCH" button is pressed
+        $("#match-form").on("submit", function(event) {
+            event.preventDefault();
+            console.log("form submitted");
+
+            var inputs; // inputs variable to hold inputs array
+
+            // Only do something if there are no errors
+            if (!matchErrors()) {
+                inputs = [redteam1, redteam2, redauto, redtele, redend, redscore, blueteam1, blueteam2, blueauto, bluetele, blueend, bluescore];
+                errorMessage.innerHTML = "";
+                
+                // empty match inputs and build match data
+                match = [];
+                for (var i of inputs) {
+                    match.push(i.value);
+                    //i.value = "";
+                }
+                
+                // UPDATE TABLE by adding to the end
+                if (currMatch > MATCHES.length) {
+                    MATCHES.push(match); // push to the end of MATCHES array
+                    addMatchToTable(currMatch, match);
+                } else { // otherwise, we are editing a pre-existing match
+                    MATCHES[currMatch - 1] = match; // update match data array
+                    
+                    // grab all rows of match table
+                    $redrows = $(".redrow");
+                    $bluerows = $(".bluerow");
+                    
+                    // grab specific row we need to change and empty it
+                    var $redrow = $($redrows[currMatch - 1]);
+                    $redrow.empty();
+                    var $bluerow = $($bluerows[currMatch - 1]);
+                    $bluerow.empty();
+                    
+                    // add new tds to the row
+                    for (var i = 0; i < match.length / 2; i++) {
+                        $redrow.append("<td>" + match[i] + "</td>")
+                    }
+                    for (var i = match.length / 2; i < match.length; i++) {
+                        $bluerow.append("<td>" + match[i] + "</td>")
+                    }
+                }
+
+                // Post to views.py
+                var URL = "{% url 'match-center' %}";
+                var matchData = {
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                    num: currMatch,
+                    red1: red1.value,
+                    red2: red2.value,
+                    redauto: Number(redauto.value),
+                    redtele: Number(redtele.value),
+                    redend: Number(redend.value),
+                    redtotal: Number(redscore.value),
+                    blue1: blue1.value,
+                    blue2: blue2.value,
+                    blueauto: Number(blueauto.value),
+                    bluetele: Number(bluetele.value),
+                    blueend: Number(blueend.value),
+                    bluetotal: Number(bluescore.value)
+                }
+                $.ajax({
+                    type: "post",
+                    url: "{% url 'match-center' %}",
+                    data: matchData,
+                    success: function(data) {
+                        for (var i of inputs) {
+                            i.value = "";
+                        }
+                    }
+                });
+                
+                // Update currMatch and references of currMatch
+                currMatch = MATCHES.length + 1; // always editing the next match by default
+                $(".match-num-display").text("#" + currMatch);
+                
+                // Enable editing buttons and add in local storage
+                enableEditingButtons();
+                localStorage.setItem("matches", MATCHES); // stores MATCHES array in local storage
+            }
+        });
+        
+        // Update references of currMatch and update match table based on any MATCHES stored when page loaded
+        $(".match-num-display").text("#" + currMatch);
+        for (var i = 0; i < MATCHES.length; i++) {
+            addMatchToTable(i + 1, MATCHES[i]);
+        }
+        
+        
+        if (MATCHES.length > 0) {
+            enableEditingButtons();
+        }
+        
+    </script>
+    <script src="{% static 'assistant/footer.js' %}"></script>
+</body>
+</html>

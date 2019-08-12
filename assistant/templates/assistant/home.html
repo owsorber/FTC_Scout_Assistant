@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="tab icon" type="image/png" href="{% static 'assistant/ftc_logo.png' %}">
+    <title>FTC Scout Assistant</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'assistant/mainstyle.css' %}">
+</head>
+<body>
+    {% csrf_token %}
+
+    <div id="nav">
+		<ul>
+            <li><a href="{% url 'home-page' %}"><strong>HOME</strong></a></li>
+            <li><a href="{% url 'event-info' %}">EVENT INFORMATION</a></li>
+            <li><a href="{% url 'team-page' %}">TEAM</a></li>
+            <li><a href="{% url 'match-center' %}">MATCH CENTER</a></li>
+            <li><a href="{% url 'rankings-page' %}">RANKINGS</a></li>
+        </ul>
+	</div>
+    
+    
+    <h1>Welcome to the FTC Scout Assistant</h1>
+    <h2>About</h2>
+    <p>This tool was built to help facilitate FTC competition scouting. After scouts input event information and match data, this system runs team performance analysis on the data, including calculation of statistics such as Offensive Power Rating (OPR) for each robot for ranking purposes (to know more about how these statistics are calculated from raw match data, go <a href="https://github.com/owsorber/FTC_OPR_Calculator/blob/master/README.md" target="_blank">here</a>). The Scout Assistant can help let your team know how well it is doing throughout the competition compared to other teams, and can provide information about potential alliance partners during alliance selection. Disclaimer: while the FTC Scout Assistant can serve as a useful scouting aid, you are encouraged to also use other means of scouting to understand less computable details such as autonomous compatibility, robot durability/mechanisms, specific robot capabilities, etc. This product is not affiliated with, associated with, authorized by, or endorsed by <a href="https://www.firstinspires.org/robotics/ftc" target="_blank">FIRST® Tech Challenge</a>, and was built independently by an FTC alum of team 6032 using the Django python-based web framework.</p>
+    
+    <h2>Instructions</h2>
+    <p>The intention of the FTC Scout Assistant is to help scouts make informed decisions throughout an FTC competition with relevant performance statistics. Ideally, a head scout will manage this system while others continuously update the head scout with match scores throughout the competition. The navigation bar at the top of this page includes the following main sections:</p>
+    <ul id="instructions">
+        <li><strong>EVENT INFORMATION</strong>: The EVENT INFORMATION page is for inputting information about the event. Here you will input the teams attending (including team name and team number) in order to enable the system to manage rankings correctly. This page can be used several days prior to the event when teams are announced and can be changed at any point (for example if a team doesn't show up). Make sure you enter event information <em>before</em> entering <em>any</em> match data.</li>
+        <li><strong>TEAM</strong>: The TEAM page allows you to see some statistics specific to your team for the current competition. This allows team members to view their team's performance profile with all statistics in one place. Statistics reported here include matches played, FTC rank, points against, OPR, autonomous OPR, tele-op OPR, and end game OPR.</li>
+        <li><strong>MATCH CENTER</strong>: The MATCH CENTER is where you add new match scores or edit previously inputted match data. Here you can view a full table of all matches you have inputted data for. The performance calculators will then be updated with any new data you input and the team performance statistics will then reflect these changes.</li>
+        <li><strong>RANKINGS</strong>: In the RANKINGS page, you can see a detailed list of each team's performance data, which can be useful for alliance selection. You can rank from best to worst in any statistic.</li>
+    </ul>
+    
+    <h2>Reset Here</h2>
+    <p>Click the button below ONLY to reset everything you entered into the FTC Scout Assistant. This deletes any entered event information and match data, enabling you to reset the Scout Assistant for a new competition. Click the button if you are sure you want to start everything over. If you are doing this because the competition is over, it may be useful to screenshot each page for your records before all is lost. This process is irreversible.</p>
+    
+    <form method="post" id="reset">
+    	{% csrf_token %}
+    	<button type="submit">DELETE ALL DATA</button>
+	</form>
+    
+    <!--footer-->
+    <h3 id="footer">Website Design and Content Copyright © <span id="footer-date">year</span> Owen Sorber. All Rights Reserved.</h3>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{% static 'assistant/dataconversion.js' %}"></script>
+    <script>
+        // AJAXING LOCAL STORAGE TO PYTHON
+        storedData = {
+            csrfmiddlewaretoken: "{{ csrf_token }}",
+            name: "stored",
+            teams: JSON.stringify(convertToTeamsDict(localStorage.getItem("teams"))),
+            matches: JSON.stringify(convertToMatches(localStorage.getItem("matches")))
+        }
+        console.log(storedData.teams)
+        console.log(storedData.matches)
+        console.log(storedData.name)
+        $.ajax({
+            type: "POST",
+            url: "{% url 'home-page' %}",
+            data: storedData
+        });
+
+        // DATA CLEARING
+        $("#reset").on("submit", function(event) {
+            event.preventDefault();
+            if (confirm("Are you sure you want to do this? Click 'OK' to DELETE all event and match data.")) {
+            	localStorage.clear();
+
+            	// AJAX to the home view so that database is cleared 
+            	$.ajax({
+                    type: "POST",
+                    url: "{% url 'home-page' %}",
+                    data: {csrfmiddlewaretoken: "{{ csrf_token }}", name: "cleared"}
+                });
+            }
+        })
+    </script>
+    <script src="{% static 'assistant/footer.js' %}"></script>
+</body>
+</html>

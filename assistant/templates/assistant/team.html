@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="tab icon" type="image/png" href="{% static 'assistant/ftc_logo.png' %}">
+    <title>My Team</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'assistant/mainstyle.css' %}">
+    <style>
+        img {
+            border-radius: 40px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 20%;
+        }
+
+        p {
+            text-align: center;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        .stat {
+            display: inline-block;
+            position: relative;
+            text-align: center;
+            margin-left: 10px;
+            margin-right: 10px;
+            padding: 15px;
+            border: 2px solid black;
+            border-radius: 10px;
+            background: #CCCCCC;
+            margin-bottom: 20px;
+        }
+        .line-of-stats {
+            display: block;
+            margin-left: 10px;
+            margin-right: 10px;
+            text-align:center;
+        }
+    </style>
+</head>
+<body>
+    <div id="nav">
+		<ul>
+            <li><a href="{% url 'home-page' %}">HOME</a></li>
+            <li><a href="{% url 'event-info' %}">EVENT INFORMATION</a></li>
+            <li><a href="{% url 'team-page' %}"><strong>TEAM</strong></a></li>
+            <li><a href="{% url 'match-center' %}">MATCH CENTER</a></li>
+            <li><a href="{% url 'rankings-page' %}">RANKINGS</a></li>
+        </ul>
+	</div>
+    
+    <h1 style="text-align: center">Team {{ team }} Stats</h1>
+    
+    <div id="display">
+    <p>Certain stats don't mean much until later in the competition. For example, you encouraged to completely neglect OPR until at least after the lunch break of a competition.</p>
+    <!--<img src="lightning_hawks.JPG">-->
+    <div class="line-of-stats">
+        <div class="stat">
+            <h2>Currently Ranked {{ rank }}</h2>
+            <h3>({{ adjusted_rank }} adjusted for matches played)</h3>
+        </div>
+        <div class="stat">
+            <h2>{{ RP }} Ranking Points</h2>
+            <h3>{{ TBP }} Total Points Against</h3>
+        </div>
+        <div class="stat">
+            <h2>{{ tbp_rank }} in Total Points Against</h2>
+            <h3>({{ tbp_rank_tied }} among teams with equal RP)</h3>
+        </div>
+        <div class="stat">
+            <h2><strong>{{ matches }}</strong></h2>
+            <h3>Matches Played</h3>
+        </div>
+    </div>
+    
+    <br>
+    <div class="line-of-stats" id="opr-line">
+        <div class="stat">
+            <h2>{{ OPR_rank }} in OPR</h2>
+            <h3>({{ OPR }} pts, {{ vsavg_OPR }})</h3>
+        </div>
+        <div class="stat">
+            <h2>{{ autoOPR_rank }} in Autonomous OPR</h2>
+            <h3>({{ autoOPR }} pts, {{ vsavg_autoOPR }})</h3>
+        </div>
+        <div class="stat">
+            <h2>{{ teleOPR_rank }} in Tele-op OPR</h2>
+            <h3>({{ teleOPR }} pts, {{ vsavg_teleOPR }})</h3>
+        </div>
+        <div class="stat">
+            <h2>{{ endOPR_rank }} in End Game OPR</h2>
+            <h3>({{ endOPR }} pts, {{ vsavg_endOPR }})</h3>
+        </div>
+        </div>
+    </div>
+        
+    <!--footer-->
+    <h3 id="footer" style="position: absolute; bottom: 0;">Website Design and Content Copyright © <span id="footer-date">year</span> Owen Sorber. All Rights Reserved.</h3>
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        // Manage display based on matches played
+        if ({{ matches }} == 0) {
+            $("#display").html("Your team has not played in any matches yet. Check back when you've played at least 1 match.");
+            $("#display").css("text-align", "center");
+        } else if ({{ all_played }} == 0) {
+            $("#opr-line").html("Once all teams have played at least one match, OPR data will be displayed here.");
+        }
+    </script>
+    <script src="{% static 'assistant/footer.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="tab icon" type="image/png" href="{% static 'assistant/ftc_logo.png' %}">
+    <title>Event Information</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'assistant/mainstyle.css' %}">
+</head>
+<body>
+    <div id="nav">
+		<ul>
+            <li><a href="{% url 'home-page' %}">HOME</a></li>
+            <li><a href="{% url 'event-info' %}"><strong>EVENT INFORMATION</strong></a></li>
+            <li><a href="{% url 'team-page' %}">TEAM</a></li>
+            <li><a href="{% url 'match-center' %}">MATCH CENTER</a></li>
+            <li><a href="{% url 'rankings-page' %}">RANKINGS</a></li>
+        </ul>
+	</div>
+    
+    <h1>Event Information</h1>
+    
+    <p>Enter the teams attending this event below. Write team number, then a comma and a space, and then the team name. For organization purposes, it may be helpful to list teams from lowest to highest number, because that is how they are usually listed on the massFTC website. Make sure not to add any extra spaces or line breaks anywhere. Team 6032 is already entered as an example (unless you already entered more teams). Click the button below when done. You can always go back to this page to change it if you need to.</p>
+    
+    <form method="post" autocomplete="off">
+        {% csrf_token %}
+        <div><button style="margin-bottom: 10px" type="submit">I'm done entering teams.</button></div>
+        <textarea name="teams" id="teams" rows="40" cols="100">6032, Lightning Hawks</textarea>
+    </form>
+    
+    
+    <!--footer-->
+    <h3 id="footer">Website Design and Content Copyright © <span id="footer-date">year</span> Owen Sorber. All Rights Reserved.</h3>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{% static 'assistant/dataconversion.js' %}"></script>
+    <script>
+        var teamsText = $("#teams");
+        teamsText.css("fontSize", "20px");
+        
+        // If user has already set some teams, display them
+        if (localStorage.getItem("teams") != undefined) {
+            var teamsDict = convertToTeamsDict(localStorage.getItem("teams"));
+            var textAreaVal = "";
+            
+            for (var teamNum in teamsDict) {
+                textAreaVal += teamNum + ", " + teamsDict[teamNum] + "\n";
+            }
+            teamsText.val(textAreaVal);
+        }
+        
+        $("button").on("click", function() {
+            // Grab list of teams by splitting at each line break
+            var teamsArray = teamsText.val().split("\n");
+            
+            // Check for mistake empty lines and remove them
+            var i = 0;
+            while (i < teamsArray.length) {
+                if (teamsArray[i] == "") {
+                    teamsArray.splice(i, 1);
+                } else {
+                    i += 1;
+                }
+            }
+
+            localStorage.setItem("teams", teamsArray);
+        })
+    </script>
+    <script src="{% static 'assistant/footer.js' %}"></script>
+</body>
+</html>

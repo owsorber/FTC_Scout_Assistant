@@ -1,0 +1,65 @@
+body {
+    font-family: "Arial", sans-serif;
+}
+
+p {
+    padding-left: 5px;
+    line-height: 1.6;
+}
+
+#nav {
+	background-color: #1B949C;
+	font-size: 1.2em;
+    
+    width: 101.6%;
+    margin-left: -1%;
+	height: 3.3em;
+	padding-top: 1.6em;
+	text-align: CENTER;
+    font-family: Arial;
+    
+}
+
+#nav ul {
+    list-style-type: none;
+    margin: 0;
+    margin-left: 0em;
+    padding: 4;
+    overflow: hidden;
+}
+
+#nav li {
+    float: left;
+    padding: 0px 35px;
+    
+    
+}
+
+#nav li a {
+    color: black;
+    text-align: center;
+    text-decoration: none;
+    font-weight: lighter;
+}
+
+#nav li a:hover {
+    text-decoration: none;
+    opacity: 0.5;
+}
+
+#instructions li {
+    padding-bottom: 10px;
+}
+
+#footer {
+    background-color: #CCCCCC;
+    font-size: 1em;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 0%;
+    position: absolute;
+    text-align: center;
+    width: 105%;
+    margin-left: -1%;
+    font-size: 15px;
+}
