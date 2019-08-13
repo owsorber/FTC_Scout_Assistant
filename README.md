@@ -24,7 +24,7 @@ The FTC Scout Assistant calculates two different types of team performance metri
 		- Tele-Op OPR
 		- End-Game OPR
 
-[What is OPR?]("https://github.com/owsorber/FTC_Scout_Assistant/blob/master/README.md#what-is-opr")
+[What is OPR?]("https://github.com/owsorber/FTC_Scout_Assistant#what-is-opr")
 
 Data is entered by a user into the Scout Assistant in two places: the **Event Information** page and the **Match Center**. For each team entered into the Event Information page, a Team object is created with a number and name. For each match entered into the Match Center, two Alliance objects are created (red and blue, each with data about autonomous score, tele-op score, end game score, and total score), which are combined to form a Match object. 
 
