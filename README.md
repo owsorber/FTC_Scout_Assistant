@@ -11,7 +11,7 @@ Disclaimer: while the FTC Scout Assistant can serve as a useful scouting aid, yo
 ## Accessing the Site
 The most recent version of the FTC Scout Assistant is currently deployed on the PythonAnywhere web hosting service at the following web address:
 
-(http://ftcscoutassistant.pythonanywhere.com/)
+https://ftcscoutassistant.pythonanywhere.com/
 
 ## TODO
  * Complete Rankings Page
