@@ -1,7 +1,7 @@
 # data.py
 # a python module for calculating team performance and ranking sorting
 
-from assistant.utils.competition import *
+from application.utils.competition import *
 import numpy
 
 """ Helper functions """

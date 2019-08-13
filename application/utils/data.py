@@ -1,7 +1,7 @@
 # data.py
 # a python module storing data collected from the Scout Assistant app
 
-from assistant.utils.competition import *
+from application.utils.competition import *
 import json
 
 teamsDict = {} # to map team nums (String) to Team objects

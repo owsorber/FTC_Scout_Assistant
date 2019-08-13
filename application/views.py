@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponse
-from assistant.utils.competition import *
-import assistant.utils.data as data
-import assistant.utils.robot_performance as performance
+from application.utils.competition import *
+import application.utils.data as data
+import application.utils.robot_performance as performance
 
 pcalc = performance.PerformanceCalculator()
 
