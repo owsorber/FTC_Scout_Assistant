@@ -8,8 +8,12 @@ Disclaimer: while the FTC Scout Assistant can serve as a useful scouting aid, yo
 
 ###### This web application is based on my [FTC_OPR_Calculator](https://github.com/owsorber/FTC_OPR_Calculator) repository, which I originally created for the 2018-19 FTC Rover Ruckus season.
 
+## Accessing the Site
+The most recent version of the FTC Scout Assistant is currently deployed on the PythonAnywhere web hosting service at the following web address:
+
+(http://ftcscoutassistant.pythonanywhere.com/)
+
 ## TODO
- * Deployment
  * Complete Rankings Page
  * Enable Surrogate Match Feature
  * Code cleanup

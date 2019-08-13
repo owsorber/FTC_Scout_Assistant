@@ -25,7 +25,8 @@ SECRET_KEY = '!6r^0h5yhahrw6n38%e^gv)i2i7&(-v(@=mp3%bwrnkk402sv&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# for deployment on pythonanywhere.com
+ALLOWED_HOSTS = ["ftcscoutassistant.pythonanywhere.com"]
 
 
 # Application definition
@@ -119,3 +120,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# for deployment on pythonanywhere.com
+STATIC_ROOT = '/home/ftcscoutassistant/FTC_Scout_Assistant/static'
