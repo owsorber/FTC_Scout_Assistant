@@ -2,9 +2,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="tab icon" type="image/png" href="{% static 'assistant/ftc_logo.png' %}">
+	<link rel="tab icon" type="image/png" href="{% static 'application/ftc_logo.png' %}">
     <title>FTC Scout Assistant</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'assistant/mainstyle.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'application/mainstyle.css' %}">
 </head>
 <body>
     {% csrf_token %}
@@ -45,7 +45,7 @@
     <h3 id="footer">Website Design and Content Copyright © <span id="footer-date">year</span> Owen Sorber. All Rights Reserved.</h3>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="{% static 'assistant/dataconversion.js' %}"></script>
+    <script src="{% static 'application/dataconversion.js' %}"></script>
     <script>
         // AJAXING LOCAL STORAGE TO PYTHON
         storedData = {
@@ -78,6 +78,6 @@
             }
         })
     </script>
-    <script src="{% static 'assistant/footer.js' %}"></script>
+    <script src="{% static 'application/footer.js' %}"></script>
 </body>
 </html>

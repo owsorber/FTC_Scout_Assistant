@@ -21,13 +21,13 @@ def home(request):
 			data.teamsDict = {}
 			data.matches = []
 
-	return render(request, "assistant/home.html")
+	return render(request, "application/home.html")
 
 def event(request):
 	if request.method == "POST":
 		teams_str = request.POST.get("teams")
 		data.buildTeamsDict(teams_str)
-	return render(request, "assistant/eventinfo.html")
+	return render(request, "application/eventinfo.html")
 
 def team(request):
 	myTeamNum = "6032"
@@ -65,7 +65,7 @@ def team(request):
 		team_data = {"team": myTeamNum, "matches": 0, "all_played": 0}
 
 	print(team_data)
-	return render(request, "assistant/team.html", team_data)
+	return render(request, "application/team.html", team_data)
 
 def matchCenter(request):
 	if request.method == "POST":
@@ -100,9 +100,9 @@ def matchCenter(request):
 			print(team.__str__() + ": " + str(team.RP) + ", " + str(team.TBP))
 
 
-	return render(request, "assistant/match.html")
+	return render(request, "application/match.html")
 
 def rankings(request):
-	return render(request, "assistant/rankings.html")
+	return render(request, "application/rankings.html")
 
 
