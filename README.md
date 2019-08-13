@@ -43,7 +43,7 @@ Finding the OPRs for each robot sets up a system of equations, `Mx = S`, where `
 
 Since the system is overdetermined, the numpy `pinv` function is used to find the pseudoinverse of M which is multiplied with one of the scores matrices to find the OPRs. Each Team object's OPR property is then updated with its corresponding OPR from the matrix.
 
-To see the python modules I created for match and performance data storage, visit [application/utils](/tree/master/application/utils).
+To see the python modules I created for match and performance data storage, visit [application/utils](https://github.com/owsorber/FTC_Scout_Assistant/tree/master/application/utils).
 
 ## What is OPR?
 OPR, or Offensive Power Rating, is an attempt to uncover the average individual scoring contribution of each robot in an FTC competition. Since each match is played alliance vs alliance, with one number for the total score of the entire alliance, it can be difficult to distinguish which team carried more load or contributed more to their alliance's score. The goal of OPR is to draw together all match data to predict how much a robot can score per match. OPR can be broken down into sub-OPRs by portion of match (autonomous, tele-op, and end game). Although not a perfect statistic, as things like an alliance partner underperforming compared to their usual ability can hinder a robot's OPR, OPR can indicate some of the following things that can be difficult to detect with only raw match data:
