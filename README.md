@@ -16,14 +16,14 @@ https://ftcscoutassistant.pythonanywhere.com
 ## How Robot Performance Statistics Are Calculated
 The FTC Scout Assistant calculates two different types of team performance metrics for each team:
 
-	1. FTC Competition Ranking Stats
-		- RP (Ranking Points)
-		- TBP (Tie Breaker Points)
-	2. Individual Robot Performance Stats
-		- Overall OPR (Offensive Power Rating)
-		- Autonomous OPR
-		- Tele-Op OPR
-		- End-Game OPR
+1. FTC Competition Ranking Stats
+ * RP (Ranking Points)
+ * TBP (Tie Breaker Points)
+2. Individual Robot Performance Stats
+ * Overall OPR (Offensive Power Rating)
+ * Autonomous OPR
+ * Tele-Op OPR
+ * End-Game OPR
 
 [What is OPR?](#what-is-opr)
 
