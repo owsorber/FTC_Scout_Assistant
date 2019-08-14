@@ -46,14 +46,15 @@ Since the system is overdetermined, the numpy `pinv` function is used to find th
 To see the python modules I created for match and performance data storage, visit [application/utils](https://github.com/owsorber/FTC_Scout_Assistant/tree/master/application/utils).
 
 ## What is OPR?
-OPR, or Offensive Power Rating, is an attempt to uncover the average individual scoring contribution of each robot in an FTC competition. Since each match is played alliance vs alliance, with one number for the total score of the entire alliance, it can be difficult to distinguish which team carried more load or contributed more to their alliance's score. The goal of OPR is to draw together all match data to predict how much a robot can score per match. OPR can be broken down into sub-OPRs by portion of match (autonomous, tele-op, and end game). Although not a perfect statistic, as things like an alliance partner underperforming compared to their usual ability can hinder a robot's OPR, OPR can indicate some of the following things that can be difficult to detect with only raw match data:
+OPR, or Offensive Power Rating, is an attempt to discover the average individual scoring contribution of each robot in an FTC competition. Since each match is played in an alliance vs alliance format, with one number for the total score of the entire alliance, it can be difficult to distinguish which team contributed more to their alliance's score. The goal of OPR is to draw together all match data to predict how many points a robot can score per match. In the FTC Scout Assistant, OPR is broken down into sub-OPRs by portion of match (autonomous, tele-op, and end game). Although not a perfect statistic, as things like a robot underperforming compared to their usual ability can hinder their alliance partner's OPR, OPR can indicate some of the following things that can be difficult to detect with only raw match data:
  * High OPR can mean a robot is efficient at scoring or helps its partners score by being compatible on the match field.
  * Low OPR can mean a robot scores few points or gets in the way of its partners' scoring efforts.
 
-Overall, while minor differences in OPR between teams can often be ignored, more significant differences may indicate the things noted above.
+Overall, while minor differences in OPR between teams can often be ignored, more significant differences may indicate some of the things noted above.
 
 ## TODO
  * Complete Rankings Page
+ * Allow users to select any team for Team Page
  * Enable Surrogate Match Feature
  * Code cleanup
  * Styling, better UI?
