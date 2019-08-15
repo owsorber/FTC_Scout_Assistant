@@ -30,8 +30,12 @@ def addMatch(match):
 def addTeam(num, obj):
 	teamsDict[num] = obj
 
+def clearTeamsDict():
+	teamsDict.clear()
+
 def updateFromLocalStorage(teamsDOM, matchesDOM):
 	# setup teams
+	clearTeamsDict()
 	teams = json.loads(teamsDOM)
 	for teamNum in teams:
 		addTeam(teamNum, Team(teamNum, teams[teamNum]))
@@ -50,6 +54,13 @@ def updateFromLocalStorage(teamsDOM, matchesDOM):
 		blue = Alliance("blue", blue1, blue2, int(matchData[8]), int(matchData[9]), int(matchData[10]), int(matchData[11]))
 		addMatch(Match(matchNum, red, blue))
 
+# takes in a sortedList of team numbers, puts team objects into list and converts to json
+def jsonify_sortedTeams(sortedList):
+	teams = [] # a list of team dictionaries (later to be converted to json)
+	for team in sortedList:
+		teams.append(teamsDict[team].convertToDict()) # converts each team into dictionary (needed for json.dumps())
+
+	return json.dumps(teams)
 
 
 # Returns the two letters at the end of an ordinal number (e.g. 'st' for 1 because 1st)

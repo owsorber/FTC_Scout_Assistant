@@ -10,7 +10,7 @@ import numpy
 def convertToList(singleColMat):
 	li = []
 	for item in singleColMat:
-		li.append(round(float(item), 2))
+		li.append(round(float(item), 1))
 
 	return li
 

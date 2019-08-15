@@ -16,7 +16,8 @@ def home(request):
 			print(data.matches)
 
 			pcalc.update(data.teamsDict, data.matches)
-			pcalc.applyToTeams()
+			if pcalc.is_valid():
+				pcalc.applyToTeams()
 		else:
 			data.teamsDict = {}
 			data.matches = []
@@ -31,7 +32,6 @@ def event(request):
 
 def team(request):
 	myTeamNum = "6032"
-	print(data.teamsDict)
 	if myTeamNum in data.teamsDict:
 		myTeam = data.teamsDict[myTeamNum]
 		team_data = {
@@ -64,7 +64,6 @@ def team(request):
 	else:
 		team_data = {"team": myTeamNum, "matches": 0, "all_played": 0}
 
-	print(team_data)
 	return render(request, "application/team.html", team_data)
 
 def matchCenter(request):
@@ -103,6 +102,15 @@ def matchCenter(request):
 	return render(request, "application/match.html")
 
 def rankings(request):
-	return render(request, "application/rankings.html")
+	rankings_data = {
+		"sorted_OPR": data.jsonify_sortedTeams(pcalc.sortByOPR("total")),
+		"sorted_autoOPR": data.jsonify_sortedTeams(pcalc.sortByOPR("auto")),
+		"sorted_teleOPR": data.jsonify_sortedTeams(pcalc.sortByOPR("tele")),
+		"sorted_endOPR": data.jsonify_sortedTeams(pcalc.sortByOPR("end")),
+		"sorted_RP": data.jsonify_sortedTeams(pcalc.sortByRP(False)),
+		"sorted_TBP": data.jsonify_sortedTeams(pcalc.sortByTBP())
+	}
+
+	return render(request, "application/rankings.html", rankings_data)
 
 

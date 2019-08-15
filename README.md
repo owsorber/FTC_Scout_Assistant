@@ -53,7 +53,6 @@ OPR, or Offensive Power Rating, is an attempt to discover the average individual
 Overall, while minor differences in OPR between teams can often be ignored, more significant differences may indicate some of the things noted above.
 
 ## TODO
- * Complete Rankings Page
  * Allow users to select any team for Team Page
  * Enable Surrogate Match Feature
  * Code cleanup

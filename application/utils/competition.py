@@ -15,6 +15,19 @@ class Team():
 		self.teleOPR = 0
 		self.endOPR = 0
 
+	def convertToDict(self):
+		return {
+			"num": self.num,
+			"name": self.name,
+			"matches": self.matchesPlayed,
+			"RP": self.RP,
+			"TBP": self.TBP,
+			"OPR": self.OPR,
+			"autoOPR": self.autoOPR,
+			"teleOPR": self.teleOPR,
+			"endOPR": self.endOPR
+		}
+
 	def getOPR(self, OPR_type):
 		if OPR_type == "auto":
 			return self.autoOPR

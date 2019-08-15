@@ -31,7 +31,6 @@
             text-align: center;
         }
 
-
     </style>
 </head>
 <body>
@@ -53,8 +52,8 @@
         <li>TBP = Tie Breaker Points (Total Points Against)</li>
     </ul>
     
-    <p>
-        Rank by 
+    <h3>
+        Rank by:
         <select>
             <option>OPR</option>
             <option>Autonomous OPR</option>
@@ -64,9 +63,9 @@
             <option>TBP</option>
         </select>
         <button id="update">Update Rankings</button>
-    </p>
+    </h3>
     
-    <h3 id="table-title">Ranked by OPR</h3>
+    <h3 id="table-title">Ranked by <span id="rank-type">OPR</span></h3>
     <table id="rankings-table">
         <tr>
             <th>Rank</th>
@@ -82,13 +81,74 @@
         </tr>
     </table>
     
-    <p>To be completed...</p>
-    
     <!--footer-->
     <h3 id="footer">Website Design and Content Copyright © <span id="footer-date">year</span> Owen Sorber. All Rights Reserved.</h3>
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
+        var rankingsTable = document.getElementById("rankings-table");
+
+        // Creates the ranking table given a sorted teams list
+        var createRankingsTable = function(sortedTeams) {
+            for (var i = 0; i < sortedTeams.length; i++) {
+                var row = document.createElement("tr");
+                var team = sortedTeams[i];
+                var teamData = [
+                    i + 1,
+                    team.num,
+                    team.name,
+                    team.matches,
+                    team.RP,
+                    team.TBP,
+                    team.autoOPR,
+                    team.teleOPR,
+                    team.endOPR,
+                    team.OPR
+                ];
+
+                for (var j = 0; j < teamData.length; j++) {
+                    var tableItem = document.createElement("td");
+                    tableItem.innerHTML = teamData[j];
+                    if (team.num == "6032") {
+                        tableItem.style.background = "lightblue";
+                    }
+                    row.appendChild(tableItem);
+                }
+
+                rankingsTable.appendChild(row);
+            }
+        };
+
+        // return sorted teams list from rank type string
+        var returnSortedTeams = function(rankType) {
+            if (rankType == "RP") {
+                return {{ sorted_RP|safe }};
+            } else if (rankType == "TBP") {
+                return {{ sorted_TBP|safe }};
+            } else if (rankType == "Autonomous OPR") {
+                return {{ sorted_autoOPR|safe }};
+            } else if (rankType == "Tele-Op OPR") {
+                return {{ sorted_teleOPR|safe }};
+            } else if (rankType == "End Game OPR") {
+                return {{ sorted_endOPR|safe }};
+            }
+
+            return {{ sorted_OPR|safe }}; // default
+        };
+
+
+        createRankingsTable(returnSortedTeams("OPR")); // default
+        $("#update").on("click", function() {
+            var rankType = $("select").val();
+            $("#rank-type").html(rankType);
+            
+            // erase anything already in the table
+            for (var i = 2; i < rankingsTable.childNodes.length; i++) {
+                rankingsTable.childNodes[i].innerHTML = "";
+            }
+            createRankingsTable(returnSortedTeams(rankType));
+
+        });
         
     </script>
     <script src="{% static 'application/footer.js' %}"></script>
