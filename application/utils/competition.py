@@ -15,6 +15,9 @@ class Team():
 		self.teleOPR = 0
 		self.endOPR = 0
 
+	def setName(self, name):
+		self.name = name
+
 	def convertToDict(self):
 		return {
 			"num": self.num,

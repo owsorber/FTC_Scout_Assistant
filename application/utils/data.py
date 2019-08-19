@@ -11,12 +11,21 @@ matches = [] # list of Match objects
 # builds teamsDict from a string of teams
 def buildTeamsDict(str):
 	teamsList = str.split("\n")
+	prevTeamsDict = teamsDict # temp storage
+	teamsDict = {} # empty up teamsDict
 	
 	for team_str in teamsList:
 		if team_str != "":
 			num, name = team_str.split(", ")
 			name = name[0:len(name) - 1] # gets rid of \r
-			teamsDict[num] = Team(num, name)
+			
+			if num in prevTeamsDict:
+				# team previously existed, only change name if needed
+				teamsDict[num] = prevTeamsDict[num]
+				teamsDict[num].setName(name) # if name different
+			else:
+				# team never existed, so we instantiate new team
+				teamsDict[num] = Team(num, name)
 
 def addMatch(match):
 	if match.num > len(matches):
