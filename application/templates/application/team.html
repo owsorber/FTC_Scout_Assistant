@@ -104,7 +104,7 @@
     <script>
         // Manage display based on matches played
         if ({{ matches }} == 0) {
-            $("#display").html("Your team has not played in any matches yet. Check back when you've played at least 1 match.");
+            $("#display").html("Your team has not played in any matches yet. Check back when your team has played in at least 1 match.");
             $("#display").css("text-align", "center");
         } else if ({{ all_played }} == 0) {
             $("#opr-line").html("Once all teams have played at least one match, OPR data will be displayed here.");
