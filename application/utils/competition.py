@@ -49,10 +49,11 @@ class Team():
 		return "Team " + self.num + " " + self.name
 
 class Alliance():
-	def __init__(self, col, team1, team2, auto, tele, end, total):
+	def __init__(self, col, team1, team2, auto, tele, end, total, surrogate):
 		self.color = col
 		self.team1 = team1
 		self.team2 = team2
+		self.teams = dict([(self.team1, surrogate[0]), (self.team2, surrogate[1])])
 
 		self.auto = auto
 		self.tele = tele
@@ -67,20 +68,25 @@ class Alliance():
 			"auto": self.auto,
 			"tele": self.tele,
 			"end": self.end,
-			"total": self.total
+			"total": self.total,
+			"surrogate1": self.surrogate[0],
+			"surrogate2": self.surrogate[1]
 		}
 
 	def increaseRP(self, increment):
-		self.team1.RP += increment
-		self.team2.RP += increment
+		for team in self.teams:
+			surrogate = self.teams[team]
+			self.team.RP += increment if not surrogate
 
 	def updateTBP(self, opponent_score):
-		self.team1.TBP += opponent_score
-		self.team2.TBP += opponent_score
+		for team in self.teams:
+			surrogate = self.teams[team]
+			self.team.TBP += opponent_score if not surrogate
 
-	def updateMatchesPlayed(self, increase):
-		self.team1.matchesPlayed += 1 if increase else -1
-		self.team2.matchesPlayed += 1 if increase else -1
+	def updateMatchesPlayed(self, num):
+		for team in self.teams:
+			surrogate = self.teams[team]
+			self.team.matchesPlayed += num if not surrogate
 
 	def hasTeam(self, team):
 		return self.team1 == team or self.team2 == team
@@ -121,8 +127,8 @@ class Match():
 			self.redAlliance.increaseRP(1)
 			self.blueAlliance.increaseRP(1)
 
-		self.redAlliance.updateMatchesPlayed(True)
-		self.blueAlliance.updateMatchesPlayed(True)
+		self.redAlliance.updateMatchesPlayed(1)
+		self.blueAlliance.updateMatchesPlayed(1)
 		self.redAlliance.updateTBP(self.blueAlliance.total)
 		self.blueAlliance.updateTBP(self.redAlliance.total)
 
@@ -138,8 +144,8 @@ class Match():
 			self.redAlliance.increaseRP(-1)
 			self.blueAlliance.increaseRP(-1)
 
-		self.redAlliance.updateMatchesPlayed(False)
-		self.blueAlliance.updateMatchesPlayed(False)
+		self.redAlliance.updateMatchesPlayed(-1)
+		self.blueAlliance.updateMatchesPlayed(-1)
 		self.redAlliance.updateTBP(-self.blueAlliance.total)
 		self.blueAlliance.updateTBP(-self.redAlliance.total)
 
