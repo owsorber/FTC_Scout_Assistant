@@ -11,13 +11,15 @@ matches = [] # list of Match objects
 # builds teamsDict from a string of teams
 def buildTeamsDict(str):
 	teamsList = str.split("\n")
+	print(teamsList)
 	prevTeamsDict = teamsDict # temp storage
 	teamsDict.clear() # empty up teamsDict
 	
 	for team_str in teamsList:
 		if team_str != "":
 			num, name = team_str.split(", ")
-			name = name[0:len(name) - 1] # gets rid of \r
+			if name[len(name) - 2:] == "\r":
+				name = name[0:len(name) - 1] # gets rid of \r
 			
 			if num in prevTeamsDict:
 				# team previously existed, only change name if needed
