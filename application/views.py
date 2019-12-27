@@ -19,8 +19,8 @@ def home(request):
 			if pcalc.is_valid():
 				pcalc.applyToTeams()
 		else:
-			data.teamsDict = {}
-			data.matches = []
+			data.teamsDict.clear()
+			data.matches.clear()
 
 	return render(request, "application/home.html")
 

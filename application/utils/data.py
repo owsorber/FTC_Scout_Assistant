@@ -12,7 +12,7 @@ matches = [] # list of Match objects
 def buildTeamsDict(str):
 	teamsList = str.split("\n")
 	prevTeamsDict = teamsDict # temp storage
-	teamsDict = {} # empty up teamsDict
+	teamsDict.clear() # empty up teamsDict
 	
 	for team_str in teamsList:
 		if team_str != "":
