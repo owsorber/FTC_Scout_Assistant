@@ -6,6 +6,8 @@ The most recent version of the FTC Scout Assistant is currently deployed on the 
 
 https://ftcscoutassistant.pythonanywhere.com
 
+###### Running Locally: cd into the project directory and type `python manage.py runserver` in Terminal.
+
 ## About
 This web application is a tool built to help facilitate FTC competition scouting. After scouts input event information and match data, this system runs team performance analysis on the data, including calculation of statistics such as Offensive Power Rating (OPR) for each robot -- as well as common FTC statistics like RP and TBP -- for ranking purposes. The Scout Assistant can help let your team know how well your robot is doing throughout the competition compared to other teams, and can provide information about potential alliance partners during alliance selection. 
 
