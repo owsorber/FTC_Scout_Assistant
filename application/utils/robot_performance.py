@@ -29,8 +29,8 @@ as attributes and makes matrix-based performance calculations.
 """
 class PerformanceCalculator:
 	def __init__(self):
-		self.teams = None
-		self.matches = None
+		self.teams = {}
+		self.matches = []
 		self.teamBias = "6032" # for ties, prioritizes this team
 
 	def setMatches(self, matches):

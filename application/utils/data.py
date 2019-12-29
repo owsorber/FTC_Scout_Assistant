@@ -61,8 +61,8 @@ def updateFromLocalStorage(teamsDOM, matchesDOM):
 		red2 = teamsDict[matchData[1]]
 		blue1 = teamsDict[matchData[6]]
 		blue2 = teamsDict[matchData[7]]
-		red = Alliance("red", red1, red2, int(matchData[2]), int(matchData[3]), int(matchData[4]), int(matchData[5]))
-		blue = Alliance("blue", blue1, blue2, int(matchData[8]), int(matchData[9]), int(matchData[10]), int(matchData[11]))
+		red = Alliance("red", red1, red2, int(matchData[2]), int(matchData[3]), int(matchData[4]), int(matchData[5]), [not bool(matchData[12]), not bool(matchData[13])])
+		blue = Alliance("blue", blue1, blue2, int(matchData[8]), int(matchData[9]), int(matchData[10]), int(matchData[11]), [not bool(matchData[14]), not bool(matchData[15])])
 		addMatch(Match(matchNum, red, blue))
 
 # takes in a sortedList of team numbers, puts team objects into list and converts to json
@@ -84,6 +84,9 @@ def ordinalNumSuffix(number):
 	elif number % 10 == 3 and number != 13:
    		return "rd"      
 	return "th"
+
+def str_to_bool(str):
+	return True if str == "true" else False
 
 def rankDisplay(num):
 	return str(num) + ordinalNumSuffix(num)

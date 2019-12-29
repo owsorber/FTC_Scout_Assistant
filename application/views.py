@@ -73,30 +73,30 @@ def matchCenter(request):
 		red2 = data.teamsDict[request.POST.get("red2")]
 		blue1 = data.teamsDict[request.POST.get("blue1")]
 		blue2 = data.teamsDict[request.POST.get("blue2")]
-		
+
 		redAlliance = Alliance("red",
 								red1, 
 								red2, 
 							   	int(request.POST.get("redauto")), 
 							   	int(request.POST.get("redtele")),
 							   	int(request.POST.get("redend")),
-							   	int(request.POST.get("redtotal")))
+							   	int(request.POST.get("redtotal")),
+							   	[not data.str_to_bool(request.POST.get("rsurrogate1")),
+							   	not data.str_to_bool(request.POST.get("rsurrogate2"))])
 		blueAlliance = Alliance("blue", 
 							   	blue1,
-							   	blue2, 
+							   	blue2,
 							   	int(request.POST.get("blueauto")), 
 							   	int(request.POST.get("bluetele")),
 							   	int(request.POST.get("blueend")),
-							   	int(request.POST.get("bluetotal")))
+							   	int(request.POST.get("bluetotal")),
+							   	[not data.str_to_bool(request.POST.get("bsurrogate1")),
+							   	not data.str_to_bool(request.POST.get("bsurrogate2"))])
 
 		data.addMatch(Match(matchNum, redAlliance, blueAlliance))
 
 		pcalc.update(data.teamsDict, data.matches)
 		pcalc.applyToTeams()
-
-		for team_num in pcalc.sortByTBP():
-			team = data.teamsDict[team_num]
-			print(team.__str__() + ": " + str(team.RP) + ", " + str(team.TBP))
 
 
 	return render(request, "application/match.html")
