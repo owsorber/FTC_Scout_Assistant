@@ -54,6 +54,7 @@ class Alliance():
 		self.team1 = team1
 		self.team2 = team2
 		self.teams = dict([(self.team1, surrogate[0]), (self.team2, surrogate[1])])
+		print(surrogate)
 
 		self.auto = auto
 		self.tele = tele
@@ -76,17 +77,20 @@ class Alliance():
 	def increaseRP(self, increment):
 		for team in self.teams:
 			surrogate = self.teams[team]
-			self.team.RP += increment if not surrogate
+			if not surrogate: 
+				team.RP += increment
 
 	def updateTBP(self, opponent_score):
 		for team in self.teams:
 			surrogate = self.teams[team]
-			self.team.TBP += opponent_score if not surrogate
+			if not surrogate: 
+				team.TBP += opponent_score
 
 	def updateMatchesPlayed(self, num):
 		for team in self.teams:
 			surrogate = self.teams[team]
-			self.team.matchesPlayed += num if not surrogate
+			if not surrogate: 
+				team.matchesPlayed += num
 
 	def hasTeam(self, team):
 		return self.team1 == team or self.team2 == team
