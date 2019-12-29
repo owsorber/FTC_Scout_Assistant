@@ -112,8 +112,8 @@
                 <td>
                     <div class="alliance" id="red-alliance">
                         <h2>RED ALLIANCE</h2>
-                        <p>Team 1: <input id="red1"> <input type="checkbox" checked></p>
-                        <p>Team 2: <input id="red2"> <input type="checkbox" checked></p>
+                        <p>Team 1: <input id="red1"> <input id="rsurrogate1" type="checkbox" checked></p>
+                        <p>Team 2: <input id="red2"> <input id="rsurrogate2" type="checkbox" checked></p>
                         <p>Autonomous Score: <input id="redauto"></p>
                         <p>Tele-Op Score: <input id="redtele"></p>
                         <p>End Game Score: <input id="redend"></p>
@@ -124,8 +124,8 @@
                 <td>
                     <div class="alliance" id="blue-alliance">
                         <h2>BLUE ALLIANCE</h2>
-                        <p>Team 1: <input id="blue1"> <input type="checkbox" checked></p>
-                        <p>Team 2: <input id="blue2"> <input type="checkbox" checked></p>
+                        <p>Team 1: <input id="blue1"> <input id="bsurrogate1" type="checkbox" checked></p>
+                        <p>Team 2: <input id="blue2"> <input id="bsurrogate2" type="checkbox" checked></p>
                         <p>Autonomous Score: <input id="blueauto"></p>
                         <p>Tele-Op Score: <input id="bluetele"></p>
                         <p>End Game Score: <input id="blueend"></p>
@@ -181,8 +181,10 @@
         var currMatch; // match currently being edited
         
         // Setup initial MATCHES array if data is already stored or instantiate as an empty array
+        console.log(localStorage.getItem("matches"));
         MATCHES = convertToMatches(localStorage.getItem("matches"));
         currMatch = MATCHES.length + 1;
+        console.log(MATCHES);
         
         var submitButton = document.getElementById("submit");
         
@@ -220,15 +222,20 @@
             var bluerow = document.createElement("tr");
             bluerow.setAttribute("class", "bluerow");
 
-            for (var i = 0; i < match.length / 2; i++) {
+            for (var i = 0; i < 6; i++) {
                 var td = document.createElement("td");
                 td.innerHTML = match[i];
+                if (i < 2 && match[i + 12] == false) {
+                    td.innerHTML += "*";
+                }
                 redrow.appendChild(td);
             }
-
-            for (var i = match.length / 2; i < match.length; i++) {
+            for (var i = 6; i < 12; i++) {
                 var td = document.createElement("td");
                 td.innerHTML = match[i];
+                if (i < 8 && match[i + 8] == false) {
+                    td.innerHTML += "*";
+                }
                 bluerow.appendChild(td);
             }
 
@@ -271,6 +278,10 @@
             var bluetele = document.getElementById("bluetele");
             var blueend = document.getElementById("blueend");
             var bluescore = document.getElementById("bluescore");
+            var rsurrogate1 = document.getElementById("rsurrogate1");
+            var rsurrogate2 = document.getElementById("rsurrogate2");
+            var bsurrogate1 = document.getElementById("bsurrogate1");
+            var bsurrogate2 = document.getElementById("bsurrogate2");
         }
         
         // Update inputs based on match array (for match editing)
@@ -287,6 +298,10 @@
             bluetele.value = match[9];
             blueend.value = match[10];
             bluescore.value = match[11];
+            rsurrogate1.checked = match[12];
+            rsurrogate2.checked = match[13];
+            bsurrogate1.checked = match[14];
+            bsurrogate2.checked = match[15];
         }
         
         // Error messaging... matchErrors() returns true if there are any errors in the inputs of match information
@@ -305,6 +320,10 @@
             bluetele = document.getElementById("bluetele");
             blueend = document.getElementById("blueend");
             bluescore = document.getElementById("bluescore");
+            rsurrogate1 = document.getElementById("rsurrogate1");
+            rsurrogate2 = document.getElementById("rsurrogate2");
+            bsurrogate1 = document.getElementById("bsurrogate1");
+            bsurrogate2 = document.getElementById("bsurrogate2");
             
             var inputs = [redteam1, redteam2, redauto, redtele, redend, redscore, blueteam1, blueteam2, blueauto, bluetele, blueend, bluescore];
             for (var i = 0; i < inputs.length; i++) {
@@ -329,17 +348,21 @@
             console.log("form submitted");
 
             var inputs; // inputs variable to hold inputs array
+            var sboxes; // surrogate match checkboxes
 
             // Only do something if there are no errors
             if (!matchErrors()) {
                 inputs = [redteam1, redteam2, redauto, redtele, redend, redscore, blueteam1, blueteam2, blueauto, bluetele, blueend, bluescore];
+                sboxes = [rsurrogate1, rsurrogate2, bsurrogate1, bsurrogate2];
                 errorMessage.innerHTML = "";
                 
                 // empty match inputs and build match data
                 match = [];
                 for (var i of inputs) {
                     match.push(i.value);
-                    //i.value = "";
+                }
+                for (var b of sboxes) {
+                    match.push(b.checked);
                 }
                 
                 // UPDATE TABLE by adding to the end
@@ -360,16 +383,25 @@
                     $bluerow.empty();
                     
                     // add new tds to the row
-                    for (var i = 0; i < match.length / 2; i++) {
-                        $redrow.append("<td>" + match[i] + "</td>")
+                    for (var i = 0; i < 6; i++) {
+                        var val = match[i];
+                        if (i < 2 && match[i + 12] == false) {
+                            val += "*";
+                        }
+                        $redrow.append("<td>" + val + "</td>");
                     }
-                    for (var i = match.length / 2; i < match.length; i++) {
-                        $bluerow.append("<td>" + match[i] + "</td>")
+                    for (var i = 6; i < 12; i++) {
+                        var val = match[i];
+                        if (i < 8 && match[i + 8] == false) {
+                            val += "*";
+                        }
+                        $bluerow.append("<td>" + val + "</td>");
                     }
                 }
 
                 // Post to views.py
                 var URL = "{% url 'match-center' %}";
+                console.log(rsurrogate1.checked)
                 var matchData = {
                     csrfmiddlewaretoken: "{{ csrf_token }}",
                     num: currMatch,
@@ -384,7 +416,11 @@
                     blueauto: Number(blueauto.value),
                     bluetele: Number(bluetele.value),
                     blueend: Number(blueend.value),
-                    bluetotal: Number(bluescore.value)
+                    bluetotal: Number(bluescore.value),
+                    rsurrogate1: rsurrogate1.checked,
+                    rsurrogate2: rsurrogate2.checked,
+                    bsurrogate1: bsurrogate1.checked,
+                    bsurrogate2: bsurrogate2.checked
                 }
                 $.ajax({
                     type: "post",
@@ -393,6 +429,9 @@
                     success: function(data) {
                         for (var i of inputs) {
                             i.value = "";
+                        }
+                        for (var b of sboxes) {
+                            b.checked = true;
                         }
                     }
                 });
@@ -403,6 +442,7 @@
                 
                 // Enable editing buttons and add in local storage
                 enableEditingButtons();
+
                 localStorage.setItem("matches", MATCHES); // stores MATCHES array in local storage
             }
         });
