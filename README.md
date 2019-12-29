@@ -56,6 +56,5 @@ Overall, while minor differences in OPR between teams can often be ignored, more
 
 ## TODO
  * Allow users to select any team for Team Page
- * Enable Surrogate Match Feature
  * Code cleanup
  * Styling, better UI?
