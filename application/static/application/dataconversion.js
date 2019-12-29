@@ -15,8 +15,16 @@ var convertToMatches = function(domString) {
     
     while (dataList.length > 0) {
         var match = [];
-        for (var i = 0; i < 16; i++) {
+        for (var i = 0; i < 12; i++) {
             match.push(dataList.shift());
+        }
+        for (var i = 12; i < 16; i++) {
+            if (dataList[0] == "true") {
+                match.push(true);
+            } else {
+                match.push(false);
+            }
+            dataList.shift();
         }
         matches.push(match);
     }
