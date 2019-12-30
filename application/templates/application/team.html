@@ -51,33 +51,30 @@
         </ul>
 	</div>
     
-    <form method="post" id="select-team" autocomplete="off">
-        {% csrf_token %}
-        <p> Select Team: 
-            <select id="choices"></select> <button id="select-button">Select</button>
-        </p> 
-    </form>
+    <p> Select Team: 
+        <select id="choices"></select> <button id="select-button">Select</button>
+    </p>
 
-    <h1 style="text-align: center">Team {{ team }} Stats</h1>
+    <h1 style="text-align: center">Team {{ team_6032 }} Stats</h1>
     
     <div id="display">
     <p>Certain stats don't mean much until later in the competition. For example, you are encouraged to completely neglect OPR until at least after the lunch break of a competition.</p>
     <!--<img src="lightning_hawks.JPG">-->
     <div class="line-of-stats">
         <div class="stat">
-            <h2>Currently Ranked {{ rank }}</h2>
-            <h3>({{ adjusted_rank }} adjusted for matches played)</h3>
+            <h2>Currently Ranked {{ rank_6032 }}</h2>
+            <h3>({{ adjusted_rank_6032 }} adjusted for matches played)</h3>
         </div>
         <div class="stat">
-            <h2>{{ RP }} Ranking Points</h2>
-            <h3>{{ TBP }} Total Points Against</h3>
+            <h2>{{ RP_6032 }} Ranking Points</h2>
+            <h3>{{ TBP_6032 }} Total Points Against</h3>
         </div>
         <div class="stat">
-            <h2>{{ tbp_rank }} in Total Points Against</h2>
-            <h3>({{ tbp_rank_tied }} among teams with equal RP)</h3>
+            <h2>{{ tbp_rank_6032 }} in Total Points Against</h2>
+            <h3>({{ tbp_rank_tied_6032 }} among teams with equal RP)</h3>
         </div>
         <div class="stat">
-            <h2><strong>{{ matches }}</strong></h2>
+            <h2><strong>{{ matches_6032 }}</strong></h2>
             <h3>Matches Played</h3>
         </div>
     </div>
@@ -85,20 +82,20 @@
     <br>
     <div class="line-of-stats" id="opr-line">
         <div class="stat">
-            <h2>{{ OPR_rank }} in OPR</h2>
-            <h3>({{ OPR }} pts, {{ vsavg_OPR }})</h3>
+            <h2>{{ OPR_rank_6032 }} in OPR</h2>
+            <h3>({{ OPR_6032 }} pts, {{ vsavg_OPR_6032 }})</h3>
         </div>
         <div class="stat">
-            <h2>{{ autoOPR_rank }} in Autonomous OPR</h2>
-            <h3>({{ autoOPR }} pts, {{ vsavg_autoOPR }})</h3>
+            <h2>{{ autoOPR_rank_6032 }} in Autonomous OPR</h2>
+            <h3>({{ autoOPR_6032 }} pts, {{ vsavg_autoOPR_6032 }})</h3>
         </div>
         <div class="stat">
-            <h2>{{ teleOPR_rank }} in Tele-op OPR</h2>
-            <h3>({{ teleOPR }} pts, {{ vsavg_teleOPR }})</h3>
+            <h2>{{ teleOPR_rank_6032 }} in Tele-op OPR</h2>
+            <h3>({{ teleOPR_6032 }} pts, {{ vsavg_teleOPR_6032 }})</h3>
         </div>
         <div class="stat">
-            <h2>{{ endOPR_rank }} in End Game OPR</h2>
-            <h3>({{ endOPR }} pts, {{ vsavg_endOPR }})</h3>
+            <h2>{{ endOPR_rank_6032 }} in End Game OPR</h2>
+            <h3>({{ endOPR_6032 }} pts, {{ vsavg_endOPR_6032 }})</h3>
         </div>
         </div>
     </div>
@@ -111,13 +108,16 @@
     <script src="{% static 'application/dataconversion.js' %}"></script>
     <script>
         // Manage display based on matches played
-        if ({{ matches }} == 0) {
+        /*if ({{ matches }} == 0) {
             $("#display").html("Your team has not played in any matches yet. Check back when your team has played in at least 1 match.");
             $("#display").css("text-align", "center");
         } else if ({{ all_played }} == 0) {
             $("#opr-line").html("Once all teams have played at least one match, OPR data will be displayed here.");
-        }
+        }*/
 
+        var displayForTeam = function(team) {
+            
+        };
 
         var teamsDict = convertToTeamsDict(localStorage.getItem("teams"));
         
@@ -127,21 +127,12 @@
             $("#choices").append("<option>" + teamText + "</option>");
         }
 
-        $("#select-team").on("submit", function(event) {
+        $("#select-button").on("click", function() {
             event.preventDefault();
             var team_choice = $("#choices").val();
             team_choice = team_choice.split(", ")[0];
 
-            $.ajax({
-                type: "post",
-                url: "{% url 'team-page' %}",
-                data: { csrfmiddlewaretoken: "{{ csrf_token }}",
-                        "teamNum": team_choice 
-                },
-                success: function(data) {
-                    
-                }
-            });
+            
         })
         
     </script>
