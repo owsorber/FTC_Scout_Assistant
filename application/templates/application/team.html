@@ -51,10 +51,17 @@
         </ul>
 	</div>
     
+    <form method="post" id="select-team" autocomplete="off">
+        {% csrf_token %}
+        <p> Select Team: 
+            <select id="choices"></select> <button id="select-button">Select</button>
+        </p> 
+    </form>
+
     <h1 style="text-align: center">Team {{ team }} Stats</h1>
     
     <div id="display">
-    <p>Certain stats don't mean much until later in the competition. For example, you encouraged to completely neglect OPR until at least after the lunch break of a competition.</p>
+    <p>Certain stats don't mean much until later in the competition. For example, you are encouraged to completely neglect OPR until at least after the lunch break of a competition.</p>
     <!--<img src="lightning_hawks.JPG">-->
     <div class="line-of-stats">
         <div class="stat">
@@ -101,6 +108,7 @@
     
     
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="{% static 'application/dataconversion.js' %}"></script>
     <script>
         // Manage display based on matches played
         if ({{ matches }} == 0) {
@@ -109,6 +117,33 @@
         } else if ({{ all_played }} == 0) {
             $("#opr-line").html("Once all teams have played at least one match, OPR data will be displayed here.");
         }
+
+
+        var teamsDict = convertToTeamsDict(localStorage.getItem("teams"));
+        
+        // Create select team options
+        for (var teamNum in teamsDict) {
+            var teamText = teamNum + ", " + teamsDict[teamNum];
+            $("#choices").append("<option>" + teamText + "</option>");
+        }
+
+        $("#select-team").on("submit", function(event) {
+            event.preventDefault();
+            var team_choice = $("#choices").val();
+            team_choice = team_choice.split(", ")[0];
+
+            $.ajax({
+                type: "post",
+                url: "{% url 'team-page' %}",
+                data: { csrfmiddlewaretoken: "{{ csrf_token }}",
+                        "teamNum": team_choice 
+                },
+                success: function(data) {
+                    
+                }
+            });
+        })
+        
     </script>
     <script src="{% static 'application/footer.js' %}"></script>
 </body>

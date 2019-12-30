@@ -32,6 +32,10 @@ def event(request):
 
 def team(request):
 	myTeamNum = "6032"
+	if request.method == "POST":
+		myTeamNum = request.POST.get("teamNum")
+		print(myTeamNum)
+	
 	if myTeamNum in data.teamsDict:
 		myTeam = data.teamsDict[myTeamNum]
 		team_data = {
