@@ -55,26 +55,26 @@
         <select id="choices"></select> <button id="select-button">Select</button>
     </p>
 
-    <h1 style="text-align: center">Team {{ team_6032 }} Stats</h1>
+    <h1 style="text-align: center">Team <span id="team">{{ team_6032 }}</span> Stats</h1>
     
     <div id="display">
     <p>Certain stats don't mean much until later in the competition. For example, you are encouraged to completely neglect OPR until at least after the lunch break of a competition.</p>
     <!--<img src="lightning_hawks.JPG">-->
     <div class="line-of-stats">
         <div class="stat">
-            <h2>Currently Ranked {{ rank_6032 }}</h2>
-            <h3>({{ adjusted_rank_6032 }} adjusted for matches played)</h3>
+            <h2>Currently Ranked <span id="rank">{{ rank_6032 }}</span></h2>
+            <h3>(<span id="adjusted_rank">{{ adjusted_rank_6032 }}</span> adjusted for matches played)</h3>
         </div>
         <div class="stat">
-            <h2>{{ RP_6032 }} Ranking Points</h2>
-            <h3>{{ TBP_6032 }} Total Points Against</h3>
+            <h2><span id="RP">{{ RP_6032 }}</span> Ranking Points</h2>
+            <h3><span id="TBP">{{ TBP_6032 }}</span> Total Points Against</h3>
         </div>
         <div class="stat">
-            <h2>{{ tbp_rank_6032 }} in Total Points Against</h2>
-            <h3>({{ tbp_rank_tied_6032 }} among teams with equal RP)</h3>
+            <h2><span id="tbp_rank">{{ tbp_rank_6032 }}</span> in Total Points Against</h2>
+            <h3>(<span id="tbp_rank_tied">{{ tbp_rank_tied_6032 }}</span> among teams with equal RP)</h3>
         </div>
         <div class="stat">
-            <h2><strong>{{ matches_6032 }}</strong></h2>
+            <h2><strong><span id="matches">{{ matches_6032 }}</span></strong></h2>
             <h3>Matches Played</h3>
         </div>
     </div>
@@ -82,20 +82,20 @@
     <br>
     <div class="line-of-stats" id="opr-line">
         <div class="stat">
-            <h2>{{ OPR_rank_6032 }} in OPR</h2>
-            <h3>({{ OPR_6032 }} pts, {{ vsavg_OPR_6032 }})</h3>
+            <h2><span id="OPR_rank">{{ OPR_rank_6032 }}</span> in OPR</h2>
+            <h3>(<span id="OPR">{{ OPR_6032 }}</span> pts, <span id="vsavg_OPR">{{ vsavg_OPR_6032 }}</span>)</h3>
         </div>
         <div class="stat">
-            <h2>{{ autoOPR_rank_6032 }} in Autonomous OPR</h2>
-            <h3>({{ autoOPR_6032 }} pts, {{ vsavg_autoOPR_6032 }})</h3>
+            <h2><span id="autoOPR_rank">{{ autoOPR_rank_6032 }}</span> in Autonomous OPR</h2>
+            <h3>(<span id="autoOPR">{{ autoOPR_6032 }}</span> pts, <span id="vsavg_autoOPR">{{ vsavg_autoOPR_6032 }}</span>)</h3>
         </div>
         <div class="stat">
-            <h2>{{ teleOPR_rank_6032 }} in Tele-op OPR</h2>
-            <h3>({{ teleOPR_6032 }} pts, {{ vsavg_teleOPR_6032 }})</h3>
+            <h2><span id="teleOPR_rank">{{ teleOPR_rank_6032 }}</span> in Tele-op OPR</h2>
+            <h3>(<span id="teleOPR">{{ teleOPR_6032 }}</span> pts, <span id="vsavg_teleOPR">{{ vsavg_teleOPR_6032 }}</span>)</h3>
         </div>
         <div class="stat">
-            <h2>{{ endOPR_rank_6032 }} in End Game OPR</h2>
-            <h3>({{ endOPR_6032 }} pts, {{ vsavg_endOPR_6032 }})</h3>
+            <h2><span id="endOPR_rank">{{ endOPR_rank_6032 }}</span> in End Game OPR</h2>
+            <h3>(<span id="endOPR">{{ endOPR_6032 }}</span> pts, <span id="vsavg_endOPR">{{ vsavg_endOPR_6032 }}</span>)</h3>
         </div>
         </div>
     </div>
@@ -112,27 +112,57 @@
             $("#display").html("Your team has not played in any matches yet. Check back when your team has played in at least 1 match.");
             $("#display").css("text-align", "center");
         } else if ({{ all_played }} == 0) {
-            $("#opr-line").html("Once all teams have played at least one match, OPR data will be displayed here.");
+            $("#opr-line").html("Once all teams have played at least one match, OPR data will be displayed here.";
         }*/
 
-        var displayForTeam = function(team) {
-            
-        };
-
         var teamsDict = convertToTeamsDict(localStorage.getItem("teams"));
-        
+        var indexOf6032 = 0;
+
         // Create select team options
+        var count = -1;
         for (var teamNum in teamsDict) {
+            count += 1;
+            if (teamNum == "6032") {
+                indexOf6032 = count;
+            }
             var teamText = teamNum + ", " + teamsDict[teamNum];
             $("#choices").append("<option>" + teamText + "</option>");
         }
 
+        // ugly function for displaying team data
+        var displayForTeam = function(teamIndex) {
+            $("#team").text("{{ team }}".split(", ")[teamIndex]);
+            $("#rank").text("{{ rank }}".split(", ")[teamIndex]);
+            $("#adjusted_rank").text("{{ adjusted_rank }}".split(", ")[teamIndex]);
+            $("#RP").text("{{ RP }}".split(", ")[teamIndex]);
+            $("#TBP").text("{{ TBP }}".split(", ")[teamIndex]);
+            $("#tbp_rank").text("{{ tbp_rank }}".split(", ")[teamIndex]);
+            $("#tbp_rank_tied").text("{{ tbp_rank_tied }}".split(", ")[teamIndex]);
+            $("#matches").text("{{ matches }}".split(", ")[teamIndex]);
+            $("#OPR_rank").text("{{ OPR_rank }}".split(", ")[teamIndex]);
+            $("#OPR").text("{{ OPR }}".split(", ")[teamIndex]);
+            $("#vsavg_OPR").text("{{ vsavg_OPR }}".split(", ")[teamIndex]);
+            $("#autoOPR_rank").text("{{ autoOPR_rank }}".split(", ")[teamIndex]);
+            $("#autoOPR").text("{{ autoOPR }}".split(", ")[teamIndex]);
+            $("#vsavg_autoOPR").text("{{ vsavg_autoOPR }}".split(", ")[teamIndex]);
+            $("#teleOPR_rank").text("{{ teleOPR_rank }}".split(", ")[teamIndex]);
+            $("#teleOPR").text("{{ teleOPR }}".split(", ")[teamIndex]);
+            $("#vsavg_teleOPR").text("{{ vsavg_teleOPR }}".split(", ")[teamIndex]);
+            $("#endOPR_rank").text("{{ endOPR_rank }}".split(", ")[teamIndex]);
+            $("#endOPR").text("{{ endOPR }}".split(", ")[teamIndex]);
+            $("#vsavg_endOPR").text("{{ vsavg_endOPR }}".split(", ")[teamIndex]);
+
+        };
+
+        // Default display
+        $("#choices")[0].selectedIndex = indexOf6032;
+        displayForTeam(indexOf6032);
+
+        // Select button functionality
         $("#select-button").on("click", function() {
             event.preventDefault();
-            var team_choice = $("#choices").val();
-            team_choice = team_choice.split(", ")[0];
-
-            
+            teamIndex = $("#choices")[0].selectedIndex;
+            displayForTeam(teamIndex);
         })
         
     </script>

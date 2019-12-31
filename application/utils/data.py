@@ -74,6 +74,14 @@ def jsonify_sortedTeams(sortedList):
 	return json.dumps(teams)
 
 
+# takes in a list of data values for each team and converts to string
+def stringify_teamData(vals):
+	string = ""
+	for val in vals:
+		string += str(val) + ", "
+	return string
+
+
 # Returns the two letters at the end of an ordinal number (e.g. 'st' for 1 because 1st)
 # -> used for rank display
 def ordinalNumSuffix(number):

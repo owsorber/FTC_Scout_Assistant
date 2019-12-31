@@ -32,32 +32,56 @@ def event(request):
 
 def team(request):
 	myTeamNum = "6032"
-	team_data = {}
+	team_data = {
+		"team": [],
+		"matches": [],
+		"RP": [],
+		"rank": [],
+		"adjusted_rank": [],
+		"TBP": [],
+		"tbp_rank": [],
+		"tbp_rank_tied": [],
+		"OPR": [],
+		"OPR_rank": [],
+		"autoOPR": [],
+		"autoOPR_rank": [],
+		"teleOPR": [],
+		"teleOPR_rank": [],
+		"endOPR": [],
+		"endOPR_rank": [],
+		"vsavg_OPR": [],
+		"vsavg_autoOPR": [],
+		"vsavg_teleOPR": [],
+		"vsavg_endOPR": [],
+		"all_played": []
+	}
 
 	for teamNum in data.teamsDict:
 		team_obj = data.teamsDict[teamNum]
-		team_data["team_" + teamNum] =  teamNum
-		team_data["matches_" + teamNum] =  team_obj.matchesPlayed
-		team_data["RP_" + teamNum] =  team_obj.RP
-		team_data["rank_" + teamNum] =  data.rankDisplay(pcalc.sortByRP(False).index(teamNum) + 1)
-		team_data["adjusted_rank_" + teamNum] =  data.rankDisplay(pcalc.sortByRP(True).index(teamNum) + 1)
-		team_data["TBP_" + teamNum] =  team_obj.TBP
-		team_data["tbp_rank_" + teamNum] =  data.rankDisplay(pcalc.sortByTBP().index(teamNum) + 1)
-		team_data["tbp_rank_tied_" + teamNum] =  data.rankDisplay(pcalc.sortByTBP_specificRP(team_obj.RP).index(teamNum) + 1)
-		team_data["OPR_" + teamNum] =  team_obj.OPR
-		team_data["OPR_rank_" + teamNum] =  data.rankDisplay(pcalc.sortByOPR("total").index(teamNum) + 1)
-		team_data["autoOPR_" + teamNum] =  team_obj.autoOPR
-		team_data["autoOPR_rank_" + teamNum] =  data.rankDisplay(pcalc.sortByOPR("auto").index(teamNum) + 1)
-		team_data["teleOPR_" + teamNum] =  team_obj.teleOPR
-		team_data["teleOPR_rank_" + teamNum] =  data.rankDisplay(pcalc.sortByOPR("tele").index(teamNum) + 1)
-		team_data["endOPR_" + teamNum] =  team_obj.endOPR
-		team_data["endOPR_rank_" + teamNum] =  data.rankDisplay(pcalc.sortByOPR("end").index(teamNum) + 1)
-		team_data["vsavg_OPR_" + teamNum] =  pcalc.vs_avg_phrase(team_obj.OPR, "total")
-		team_data["vsavg_autoOPR_" + teamNum] =  pcalc.vs_avg_phrase(team_obj.autoOPR, "auto")
-		team_data["vsavg_teleOPR_" + teamNum] =  pcalc.vs_avg_phrase(team_obj.teleOPR, "tele")
-		team_data["vsavg_endOPR_" + teamNum] =  pcalc.vs_avg_phrase(team_obj.endOPR, "end")
-		team_data["all_played_" + teamNum] =  pcalc.all_teams_played()
+		team_data["team"].append(teamNum)
+		team_data["matches"].append(team_obj.matchesPlayed)
+		team_data["RP"].append(team_obj.RP)
+		team_data["rank"].append(data.rankDisplay(pcalc.sortByRP(False).index(teamNum) + 1))
+		team_data["adjusted_rank"].append(data.rankDisplay(pcalc.sortByRP(True).index(teamNum) + 1))
+		team_data["TBP"].append(team_obj.TBP)
+		team_data["tbp_rank"].append(data.rankDisplay(pcalc.sortByTBP().index(teamNum) + 1))
+		team_data["tbp_rank_tied"].append(data.rankDisplay(pcalc.sortByTBP_specificRP(team_obj.RP).index(teamNum) + 1))
+		team_data["OPR"].append(team_obj.OPR)
+		team_data["OPR_rank"].append(data.rankDisplay(pcalc.sortByOPR("total").index(teamNum) + 1))
+		team_data["autoOPR"].append(team_obj.autoOPR)
+		team_data["autoOPR_rank"].append(data.rankDisplay(pcalc.sortByOPR("auto").index(teamNum) + 1))
+		team_data["teleOPR"].append(team_obj.teleOPR)
+		team_data["teleOPR_rank"].append(data.rankDisplay(pcalc.sortByOPR("tele").index(teamNum) + 1))
+		team_data["endOPR"].append(team_obj.endOPR)
+		team_data["endOPR_rank"].append(data.rankDisplay(pcalc.sortByOPR("end").index(teamNum) + 1))
+		team_data["vsavg_OPR"].append(pcalc.vs_avg_phrase(team_obj.OPR, "total"))
+		team_data["vsavg_autoOPR"].append(pcalc.vs_avg_phrase(team_obj.autoOPR, "auto"))
+		team_data["vsavg_teleOPR"].append(pcalc.vs_avg_phrase(team_obj.teleOPR, "tele"))
+		team_data["vsavg_endOPR"].append(pcalc.vs_avg_phrase(team_obj.endOPR, "end"))
+		team_data["all_played"].append(pcalc.all_teams_played())
 
+	for item in team_data:
+		team_data[item] = data.stringify_teamData(team_data[item])
 
 	return render(request, "application/team.html", team_data)
 
