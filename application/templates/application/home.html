@@ -54,9 +54,7 @@
             teams: JSON.stringify(convertToTeamsDict(localStorage.getItem("teams"))),
             matches: JSON.stringify(convertToMatches(localStorage.getItem("matches")))
         }
-        console.log(storedData.teams)
-        console.log(storedData.matches)
-        console.log(storedData.name)
+
         $.ajax({
             type: "POST",
             url: "{% url 'home-page' %}",

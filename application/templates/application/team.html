@@ -41,6 +41,8 @@
     </style>
 </head>
 <body>
+    {% csrf_token %}
+
     <div id="nav">
 		<ul>
             <li><a href="{% url 'home-page' %}">HOME</a></li>
@@ -107,18 +109,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="{% static 'application/dataconversion.js' %}"></script>
     <script>
-        // Manage display based on matches played
-        /*if ({{ matches }} == 0) {
-            $("#display").html("Your team has not played in any matches yet. Check back when your team has played in at least 1 match.");
-            $("#display").css("text-align", "center");
-        } else if ({{ all_played }} == 0) {
-            $("#opr-line").html("Once all teams have played at least one match, OPR data will be displayed here.";
-        }*/
-
+        // Create select team options
         var teamsDict = convertToTeamsDict(localStorage.getItem("teams"));
         var indexOf6032 = 0;
-
-        // Create select team options
         var count = -1;
         for (var teamNum in teamsDict) {
             count += 1;
@@ -131,6 +124,13 @@
 
         // ugly function for displaying team data
         var displayForTeam = function(teamIndex) {
+            if ("{{ matches }}".split(", ")[teamIndex] == 0) {
+                $("#display").html("Your team has not played in any matches yet. Check back when your team has played in at least 1 match.");
+                $("#display").css("text-align", "center");
+            } else if ({{ all_played }} == 0) {
+                $("#opr-line").html("Once all teams have played at least one match, OPR data will be displayed here.");
+            }
+            console.log("{{ team }}");
             $("#team").text("{{ team }}".split(", ")[teamIndex]);
             $("#rank").text("{{ rank }}".split(", ")[teamIndex]);
             $("#adjusted_rank").text("{{ adjusted_rank }}".split(", ")[teamIndex]);
