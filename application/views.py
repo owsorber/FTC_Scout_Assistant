@@ -53,7 +53,7 @@ def team(request):
 		"vsavg_autoOPR": [],
 		"vsavg_teleOPR": [],
 		"vsavg_endOPR": [],
-		"all_played": []
+		"all_played": pcalc.all_teams_played()
 	}
 
 	for teamNum in data.teamsDict:
@@ -78,10 +78,10 @@ def team(request):
 		team_data["vsavg_autoOPR"].append(pcalc.vs_avg_phrase(team_obj.autoOPR, "auto"))
 		team_data["vsavg_teleOPR"].append(pcalc.vs_avg_phrase(team_obj.teleOPR, "tele"))
 		team_data["vsavg_endOPR"].append(pcalc.vs_avg_phrase(team_obj.endOPR, "end"))
-		team_data["all_played"].append(pcalc.all_teams_played())
 
 	for item in team_data:
-		team_data[item] = data.stringify_teamData(team_data[item])
+		if item != "all_played":
+			team_data[item] = data.stringify_teamData(team_data[item])
 
 	return render(request, "application/team.html", team_data)
 

@@ -123,14 +123,15 @@
         }
 
         // ugly function for displaying team data
-        var displayForTeam = function(teamIndex) {
+        var displayForTeam = function(teamNum) {
+            var teamIndex = "{{ team }}".split(", ").indexOf(teamNum)
+
             if ("{{ matches }}".split(", ")[teamIndex] == 0) {
                 $("#display").html("Your team has not played in any matches yet. Check back when your team has played in at least 1 match.");
                 $("#display").css("text-align", "center");
             } else if ({{ all_played }} == 0) {
                 $("#opr-line").html("Once all teams have played at least one match, OPR data will be displayed here.");
             }
-            console.log("{{ team }}");
             $("#team").text("{{ team }}".split(", ")[teamIndex]);
             $("#rank").text("{{ rank }}".split(", ")[teamIndex]);
             $("#adjusted_rank").text("{{ adjusted_rank }}".split(", ")[teamIndex]);
@@ -156,13 +157,14 @@
 
         // Default display
         $("#choices")[0].selectedIndex = indexOf6032;
-        displayForTeam(indexOf6032);
+        //$("#choices")[0].selectedIndex = .split(", ").indexOf("6032");
+        displayForTeam("6032");
 
         // Select button functionality
         $("#select-button").on("click", function() {
             event.preventDefault();
-            teamIndex = $("#choices")[0].selectedIndex;
-            displayForTeam(teamIndex);
+            var chosenTeam = $("#choices").val().split(", ")[0];
+            displayForTeam(chosenTeam);
         })
         
     </script>
