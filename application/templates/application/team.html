@@ -101,6 +101,9 @@
         </div>
         </div>
     </div>
+
+    <p id="matches-message" style="text-align: center">Your team has not played in any matches yet. Check back when your team has played in at least 1 match.</p>
+    <p id="opr-message">Once all teams have played at least one match, OPR data will be displayed here.</p>
         
     <!--footer-->
     <h3 id="footer" style="position: absolute; bottom: 0;">Website Design and Content Copyright © <span id="footer-date">year</span> Owen Sorber. All Rights Reserved.</h3>
@@ -124,13 +127,19 @@
 
         // ugly function for displaying team data
         var displayForTeam = function(teamNum) {
-            var teamIndex = "{{ team }}".split(", ").indexOf(teamNum)
+            $("#display").show();
+            $("#opr-line").show();
+            $("#matches-message").hide();
+            $("#opr-message").hide();
 
-            if ("{{ matches }}".split(", ")[teamIndex] == 0) {
-                $("#display").html("Your team has not played in any matches yet. Check back when your team has played in at least 1 match.");
-                $("#display").css("text-align", "center");
+            var teamIndex = "{{ team }}".split(", ").indexOf(teamNum)
+            console.log("{{ matches }}".split(", ")[teamIndex])
+            if ("{{ matches }}".split(", ")[teamIndex] == "0") {
+                $("#display").hide();
+                $("#matches-message").show();
             } else if ({{ all_played }} == 0) {
-                $("#opr-line").html("Once all teams have played at least one match, OPR data will be displayed here.");
+                $("#opr-line").hide();
+                $("#opr-message").show();
             }
             $("#team").text("{{ team }}".split(", ")[teamIndex]);
             $("#rank").text("{{ rank }}".split(", ")[teamIndex]);
