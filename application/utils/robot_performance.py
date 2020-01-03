@@ -55,6 +55,12 @@ class PerformanceCalculator:
 				return 0
 		return 1
 
+	def all_teams_played_twice(self):
+		for team in self.teams:
+			if self.teams[team].matchesPlayed <= 1:
+				return 0
+		return 1
+
 	# returns a tuple of length five of matrices needed for OPR calculation
 	def statMatrices(self):
 		M = [] # matrix to return
