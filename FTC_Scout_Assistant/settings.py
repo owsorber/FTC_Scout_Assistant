@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '!6r^0h5yhahrw6n38%e^gv)i2i7&(-v(@=mp3%bwrnkk402sv&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # for running locally and deployment on pythonanywhere.com
 ALLOWED_HOSTS = ["127.0.0.1", "ftcscoutassistant.pythonanywhere.com"]
